@@ -1,0 +1,44 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+struct DisplayData
+{
+    int colorModeindex;
+    float4 colorChoice1;
+    float4 colorChoice2;
+};
+
+// with cs.SetTexture
+RWTexture2D<float4> displayTexture;
+
+StructuredBuffer<DisplayData> displayData;
+
+[numthreads(8,8,1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    int colorModeIndex = displayData[0].colorModeindex;
+    if (colorModeIndex == 1)
+    {
+        displayTexture[id.xy] = displayData[0].colorChoice1;
+    }
+    else if (colorModeIndex == 2)
+    {
+        displayTexture[id.xy] = displayData[0].colorChoice2;
+    }
+    else if (colorModeIndex == 3)
+    {
+        float4 dimmedColor1 = displayData[0].colorChoice1 / 2.0;
+        dimmedColor1.a = 1.0;
+        float4 dimmedColor2 = displayData[0].colorChoice2 / 2.0;
+        dimmedColor2.a = 1.0;
+
+        float4 mix1 = lerp(dimmedColor1, displayData[0].colorChoice1, id.x / 500.0);
+        float4 mix2 = lerp(dimmedColor2, displayData[0].colorChoice2, id.y / 500.0);
+
+        float4 added = mix1 + mix2;
+        added = min(1.0, added);
+
+        displayTexture[id.xy] = added;
+    }
+}

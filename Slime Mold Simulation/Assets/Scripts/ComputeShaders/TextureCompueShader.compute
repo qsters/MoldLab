@@ -1,0 +1,176 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel UpdateTrail
+
+struct Spore
+{
+    float2 position;
+    float angle;
+};
+
+struct SimulationSettings
+{
+    int sporeCount;
+    float speed;
+    float turnSpeed;
+    float sensorDistance;
+    float sensorOffset;
+    float randomnessScale;
+    float trailPixelLength;
+    int colorSchemeIndex;
+    int colorModeIndex;
+    float4 colorChoice1;
+    float4 colorChoice2;
+    int screenWidth;
+    int screenHeight;
+};
+
+
+StructuredBuffer<SimulationSettings> settings;
+StructuredBuffer<Spore> spores;
+
+RWTexture2D<float4> trailTexture;
+
+void DebugSensor(float sensorAngle, float sensorDistance, float2 sporePosition, float4 color,
+                 RWTexture2D<float4> writingTexture)
+{
+    float2 sensorDir = float2(cos(sensorAngle), sin(sensorAngle));
+    float2 sensorPos = sporePosition + sensorDir * sensorDistance;
+
+    writingTexture[sensorPos.xy] = color;
+}
+
+void DebugSensors(Spore spore, RWTexture2D<float4> writingTexture, SimulationSettings settings)
+{
+    float sensorAngle = settings.sensorOffset;
+    float sensorDistance = settings.sensorDistance;
+
+    float4 leftColor = float4(1.0, 0.0, 0.0, 1.0);
+    float4 rightColor = float4(0.0, 1.0, 0.0, 1.0);
+
+    DebugSensor(spore.angle + sensorAngle, sensorDistance, spore.position, leftColor, writingTexture);
+    DebugSensor(spore.angle - sensorAngle, sensorDistance, spore.position, rightColor, writingTexture);
+}
+
+[numthreads(16,1,1)]
+void UpdateTrail(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)settings[0].sporeCount)
+    {
+        return;
+    }
+    int colorIndex = settings[0].colorSchemeIndex;
+    int colorModeIndex = settings[0].colorModeIndex;
+
+    Spore spore = spores[id.x];
+
+    float xNorm = spore.position.x / settings[0].screenWidth;
+    float yNorm = spore.position.y / settings[0].screenHeight;
+    if (colorModeIndex == 0)
+    {
+        if (colorIndex == 0)
+        {
+            trailTexture[spore.position.xy] = float4(xNorm, yNorm, 1.0, 1.0);
+        }
+        else if (colorIndex == 1)
+        {
+            trailTexture[spore.position.xy] = float4(1.0 - xNorm, yNorm, xNorm * (1.0 - yNorm), 1.0);
+        }
+        else if (colorIndex == 2)
+        {
+            trailTexture[spore.position.xy] = float4(xNorm, 1.0, yNorm, 1.0);
+        }
+        else if (colorIndex == 3)
+        {
+            trailTexture[spore.position.xy] = min(1.0, float4(xNorm * yNorm, yNorm, 1.0, 1.0));
+        }
+        else if (colorIndex == 4)
+        {
+            trailTexture[spore.position.xy] = float4(1.0, xNorm, yNorm, 1.0);
+        }
+        else if (colorIndex == 5)
+        {
+            trailTexture[spore.position.xy] = min(1.0, float4(xNorm, yNorm / xNorm, xNorm / yNorm, 1.0));
+        }
+        else if (colorIndex == 6)
+        {
+            trailTexture[spore.position.xy] = float4(xNorm, yNorm, 1.0 - xNorm, 1.0);
+        }
+        else if (colorIndex == 7)
+        {
+            trailTexture[spore.position.xy] = min(1.0, float4(xNorm, yNorm * xNorm, 1.0 - xNorm, 1.0));
+        }
+    }
+    else if (colorModeIndex == 1)
+    {
+        trailTexture[spore.position.xy] = settings[0].colorChoice1;
+    }
+    else if (colorModeIndex == 2)
+    {
+        trailTexture[spore.position.xy] = settings[0].colorChoice2;
+    }
+    else if (colorModeIndex == 3)
+    {
+        float4 dimmedColor1 = settings[0].colorChoice1 / 2.0;
+        dimmedColor1.a = 1.0;
+        float4 dimmedColor2 = settings[0].colorChoice2 / 2.0;
+        dimmedColor2.a = 1.0;
+
+        float4 mix1 = lerp(dimmedColor1, settings[0].colorChoice1, xNorm);
+        float4 mix2 = lerp(dimmedColor2, settings[0].colorChoice2, yNorm);
+
+        float4 added = mix1 + mix2;
+        added = min(1.0, added);
+
+        trailTexture[spore.position.xy] = added;
+    }
+}
+
+#pragma kernel FadeTexture
+
+RWTexture2D<float4> textureToFade;
+
+float deltaTime;
+
+[numthreads(8,8,1)]
+void FadeTexture(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)settings[0].screenWidth || id.y >= (uint)settings[0].screenHeight)
+    {
+        return;
+    }
+    float4 oldPixel = textureToFade[id.xy];
+    float decayAmount = settings[0].speed * (deltaTime / settings[0].trailPixelLength);
+    float4 newPixel = oldPixel - decayAmount;
+
+    textureToFade[id.xy] = max(0.0, newPixel);
+}
+
+#pragma kernel ClearScreen
+
+RWTexture2D<float4> textureToClear;
+
+[numthreads(8,8,1)]
+void ClearScreen(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)settings[0].screenWidth || id.y >= (uint)settings[0].screenHeight)
+    {
+        return;
+    }
+    textureToClear[id.xy] = float4(0.0, 0.0, 0.0, 1.0);
+}
+
+#pragma kernel InvertScreen
+RWTexture2D<float4> textureToInvert;
+RWTexture2D<float4> outputTexture;
+
+[numthreads(8,8,1)]
+void InvertScreen(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)settings[0].screenWidth || id.y >= (uint)settings[0].screenHeight)
+    {
+        return;
+    }
+    float4 invertedColor = -1.0 * (textureToInvert[id.xy] - 1.0);
+    invertedColor.a = textureToInvert[id.xy].a;
+    textureToInvert[id.xy] = invertedColor;
+}

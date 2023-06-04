@@ -1,0 +1,126 @@
+#pragma kernel UpdateSpore
+
+struct Spore
+{
+    float2 position;
+    float angle;
+};
+
+struct SimulationSettings
+{
+    int sporeCount;
+    float speed;
+    float turnSpeed;
+    float sensorDistance;
+    float sensorOffset;
+    float randomnessScale;
+    float trailPixelLength;
+    int colorScheme;
+    int colorModeIndex;
+    float4 colorChoice1;
+    float4 colorChoice2;
+    int screenWidth;
+    int screenHeight;
+};
+
+// Hash function www.cs.ubc.ca/~rbridson/docs/schechter-sca08-turbulence.pdf
+uint hash(uint state)
+{
+    state ^= 2747636419u;
+    state *= 2654435769u;
+    state ^= state >> 16;
+    state *= 2654435769u;
+    state ^= state >> 16;
+    state *= 2654435769u;
+    return state;
+}
+
+float scaleToRange01(uint state)
+{
+    return state / 4294967295.0;
+}
+
+float sense(Spore spore, SimulationSettings simInfo, RWTexture2D<float4> sensingTexture, float sensorAngleOffset)
+{
+    float sensorAngle = spore.angle + sensorAngleOffset;
+    float2 sensorDir = float2(cos(sensorAngle), sin(sensorAngle));
+
+    float2 samplePos = spore.position + sensorDir * simInfo.sensorDistance;
+
+    float sampleX = min(simInfo.screenWidth - 1, max(0, samplePos.x));
+    float sampleY = min(simInfo.screenHeight - 1, max(0, samplePos.y));
+
+    float sensedPixel = sensingTexture[float2(sampleX, sampleY)].a;
+
+    return sensedPixel;
+}
+
+// Buffers
+RWTexture2D<float4> sensingTexture;
+
+RWStructuredBuffer<SimulationSettings> simulationSettings;
+
+RWStructuredBuffer<Spore> spores;
+
+float deltaTime;
+float time;
+
+[numthreads(16,1,1)]
+void UpdateSpore(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)simulationSettings[0].sporeCount)
+    {
+        return;
+    }
+
+    const SimulationSettings settings = simulationSettings[0];
+
+    Spore spore = spores[id.x];
+    float2 position = spore.position;
+    float angle = spore.angle;
+
+    uint random = hash(position.y * settings.screenWidth + position.x + hash(id.x + time * 100000));
+
+    float forwardWeight = sense(spore, settings, sensingTexture, 0);
+    float leftWeight = sense(spore, settings, sensingTexture, settings.sensorOffset);
+    float rightWeight = sense(spore, settings, sensingTexture, -settings.sensorOffset);
+
+    float randomSteer = (scaleToRange01(random) - 0.5) * settings.randomnessScale;
+
+    // Starting the change with some random amount
+    float turningDelta = 0;
+
+    // Forward strongest, keep going forward
+    if (forwardWeight > rightWeight && forwardWeight > leftWeight)
+    {
+        turningDelta += 0;
+    }
+    else if (rightWeight > leftWeight) // turn right
+    {
+        turningDelta -= settings.turnSpeed;
+    }
+    else if (leftWeight > rightWeight) // turn left
+    {
+        turningDelta += settings.turnSpeed;
+    }
+    float newAngle = angle + turningDelta * 3.1415926535 * deltaTime + randomSteer;
+
+    float2 direction = float2(cos(newAngle), sin(newAngle));
+
+    float2 newPosition = position + (direction * settings.speed * deltaTime);
+
+    // If outside bound set newAngle to random angle inwards
+    if (newPosition.x < 0 || newPosition.x >= settings.screenWidth || newPosition.y < 0 || newPosition.y >= settings.
+        screenHeight)
+    {
+        random = hash(random);
+        float randomAngle = scaleToRange01(random) * 2 * 3.1415;
+
+        newPosition.x = min(settings.screenWidth - 1, max(0, newPosition.x));
+        newPosition.y = min(settings.screenHeight - 1, max(0, newPosition.y));
+        newAngle = randomAngle;
+    }
+
+    spores[id.x].position = newPosition;
+    spores[id.x].angle = newAngle;
+}
