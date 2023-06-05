@@ -1,3 +1,46 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement style="height: 738px; flex-grow: 1; opacity: 1; background-color: rgba(0, 0, 0, 0.59);" />
+    <Style src="project://database/Assets/Scripts/UI%20Toolkit/StyleSheets/Controller.uss?fileID=7433441132597879392&amp;guid=b0d62440492fb43d99fa372ba6d8718e&amp;type=3#Controller" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.39); flex-shrink: 1; height: 1036px; min-width: auto; flex-direction: row;">
+        <ui:GroupBox name="TextBox" style="flex-grow: 3; flex-direction: column; padding-left: 49px; padding-top: 36px;">
+            <ui:Label text="Dragging or scrolling Changes &#10;your Currently Selected Field" display-tooltip-when-elided="true" style="flex-grow: 1;" />
+        </ui:GroupBox>
+        <ui:GroupBox name="ControllerBox" style="flex-grow: 1; min-width: auto; flex-direction: column; justify-content: flex-start; padding-top: 3px; padding-bottom: 10px;">
+            <ui:GroupBox name="Controller" style="flex-direction: row;">
+                <ui:Label text="Spore Count" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/Count.png?fileID=2800000&amp;guid=b4d580982568c4e8d821ee2004dadd84&amp;type=3#Count&apos;); -unity-background-scale-mode: scale-to-fit;" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Controller">
+                <ui:Label text="Movement Speed" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/Speed.png?fileID=2800000&amp;guid=1805f4127aa264f2f8545af54a6c848f&amp;type=3#Speed&apos;); -unity-background-scale-mode: scale-to-fit;" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Controller">
+                <ui:Label text="Turn Speed" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/TurnSpeed.png?fileID=2800000&amp;guid=4b529c312326c47a09d69d99d208a457&amp;type=3#TurnSpeed&apos;); -unity-background-scale-mode: scale-to-fit;" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Controller">
+                <ui:Label text="Sight Distance" display-tooltip-when-elided="true" name="ControllerText" style="width: 30%;" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/SightDistance.png?fileID=2800000&amp;guid=e4703b4469c234657876103d3e7cf80d&amp;type=3#SightDistance&apos;); -unity-background-scale-mode: scale-to-fit;" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Controller">
+                <ui:Label text="Sight Angle" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/SightAngle.png?fileID=2800000&amp;guid=2388b2838ad934c2f8a9ee52de5f6ad1&amp;type=3#SightAngle&apos;); -unity-background-scale-mode: scale-to-fit;" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Controller">
+                <ui:Label text="Trail Length" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/TrailLength.png?fileID=2800000&amp;guid=85a0f6c097fa4418cb1c5652c7d6c376&amp;type=3#TrailLength&apos;);" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Controller">
+                <ui:Label text="Randomness In Movement" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/Randomness.png?fileID=2800000&amp;guid=bbab87990819341c18026fa49ad7fcb8&amp;type=3#Randomness&apos;);" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Controller" style="margin-top: 10px; margin-bottom: 8px;">
+                <ui:Label text="Toggles Going Towards &#10;or Away from other Spores" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/Attraction&amp;Repulsion.png?fileID=2800000&amp;guid=88c718bb52b53450eab205f92cb62eb2&amp;type=3#Attraction&amp;Repulsion&apos;);" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Controller">
+                <ui:Label text="Opens Color Menu" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/ColorMenu.png?fileID=2800000&amp;guid=c8c537050c24b4496a105a2031dc3fca&amp;type=3#ColorMenu&apos;);" />
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:VisualElement>
 </ui:UXML>

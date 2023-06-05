@@ -1,0 +1,31 @@
+#ControllerBox > * {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#ControllerBox VisualElement {
+    width: 15%;
+    padding-top: 15%;
+}
+
+Label {
+    -unity-font: resource('Fonts/PoltawskiNowy-VariableFont_wght SDF');
+    -unity-font-definition: None;
+    color: white;
+}
+
+#TextBox Label {
+    font-size: 20px;
+}
+
+
+#ControllerText {
+    -unity-text-align: middle-right;
+    margin-right: 10px;
+    font-size: 20px;
+}
