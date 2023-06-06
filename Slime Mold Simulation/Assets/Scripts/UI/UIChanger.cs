@@ -38,7 +38,6 @@ public class UIChanger : MonoBehaviour
         keyElements[2].style.width = new StyleLength(80);
         textElements[2].text = "Press";
         
-
         controlPanel.anchoredPosition = new Vector2(-80, 0f);
 #elif UNITY_IOS || UNITY_ANDROID
         // explanationPointer.sprite = explanationPointerSprites[1];

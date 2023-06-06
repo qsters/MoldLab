@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Helpers;
 using UI;
 using UnityEngine;
@@ -8,7 +10,8 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 public class InputHandler : MonoBehaviour
 {
     public static InputHandler singleton;
-    public static bool isPaused;
+    public bool isPaused;
+    public bool disablePause;
 
     private void Awake()
     {
@@ -23,17 +26,13 @@ public class InputHandler : MonoBehaviour
 
     public void OnPauseButton(InputAction.CallbackContext context)
     {
-        if (!context.canceled || Touch.activeFingers.Count != 2)
+        if (!context.performed || disablePause)
         {
             return;
         }
 
         isPaused = !isPaused;
 
-        if (Time.realtimeSinceStartup - Touch.activeFingers[0].currentTouch.startTime > 0.5f)
-        {
-            return;
-        }
 
         Simulation.simulationState = Simulation.simulationState == SimulationState.Playing
             ? SimulationState.Paused
@@ -42,19 +41,36 @@ public class InputHandler : MonoBehaviour
 
     public void OnClearButton(InputAction.CallbackContext context)
     {
-        if (!context.canceled || Touch.activeFingers.Count != 3 || isPaused)
+        if (context.started)
         {
-            return;
+            disablePause = true;
         }
-
-        if (Time.realtimeSinceStartup - Touch.activeFingers[0].currentTouch.startTime > 0.5f)
+        else if (context.performed)
         {
-            return;
-        }
+            StopAllCoroutines();
+            StartCoroutine(EnableAfterABit());
 
-        TextureHelper.ClearRenderTextures(new[] { Simulation.trailTexture });
-        Simulation.spores = Spore.GetRandomSpores(Simulation.simulationData.sporeCount);
-        Spore.CreateAndSetSpores();
+            if (isPaused)
+            {
+                return;
+            }
+
+            TextureHelper.ClearRenderTextures(new[] { Simulation.trailTexture });
+            Simulation.spores = Spore.GetRandomSpores(Simulation.simulationData.sporeCount);
+            Spore.CreateAndSetSpores();
+        }
+        else
+        {
+            StopAllCoroutines();
+            StartCoroutine(EnableAfterABit());
+        }
+    }
+
+    private IEnumerator EnableAfterABit()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        disablePause = false;
     }
 
     public void OnScroll(InputAction.CallbackContext context)
