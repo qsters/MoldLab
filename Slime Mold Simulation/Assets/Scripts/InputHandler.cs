@@ -23,10 +23,12 @@ public class InputHandler : MonoBehaviour
 
     public void OnPauseButton(InputAction.CallbackContext context)
     {
-        if (!context.performed || Touch.activeFingers.Count != 2)
+        if (!context.canceled || Touch.activeFingers.Count != 2)
         {
             return;
         }
+
+        isPaused = !isPaused;
 
         if (Time.realtimeSinceStartup - Touch.activeFingers[0].currentTouch.startTime > 0.5f)
         {
@@ -40,7 +42,7 @@ public class InputHandler : MonoBehaviour
 
     public void OnClearButton(InputAction.CallbackContext context)
     {
-        if (!context.canceled || Touch.activeFingers.Count != 3)
+        if (!context.canceled || Touch.activeFingers.Count != 3 || isPaused)
         {
             return;
         }

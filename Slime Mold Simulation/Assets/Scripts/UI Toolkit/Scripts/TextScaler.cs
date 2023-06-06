@@ -15,19 +15,19 @@ public class TextScaler : MonoBehaviour
 
         if (Screen.height < 1000)
         {
-            fontSize = 15;
+            fontSize = 35;
         }
         else if (Screen.height >= 1000 && Screen.height < 1300)
         {
-            fontSize = 20;
+            fontSize = 45;
         }
         else if (Screen.height >= 1300 && Screen.height < 1700)
         {
-            fontSize = 25;
+            fontSize = 55;
         }
         else if (Screen.height >= 1700)
         {
-            fontSize = 30;
+            fontSize = 65;
         }
 
         List<VisualElement> result = root.Query("ControllerText").ToList();

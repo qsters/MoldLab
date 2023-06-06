@@ -14,18 +14,38 @@
 }
 
 Label {
-    -unity-font: resource('Fonts/PoltawskiNowy-VariableFont_wght SDF');
-    -unity-font-definition: None;
     color: white;
 }
-
-#TextBox Label {
-    font-size: 20px;
-}
-
 
 #ControllerText {
     -unity-text-align: middle-right;
     margin-right: 10px;
-    font-size: 20px;
+    font-size: 35px;
 }
+
+#HorizontalTextGroup {
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+}
+
+#HorizontalTextGroup VisualElement {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.TextBoxScalable {
+    font-size: 30px;
+}
+
+#DraggingHand {
+    position: absolute;
+    left: var(--drag_sign_left);
+}
+
+:root {
+    -unity-font: resource('Fonts/PoltawskiNowy-VariableFont_wght SDF');
+    -unity-font-definition: None;
+    --drag_sign_left: 20px;
+}
+

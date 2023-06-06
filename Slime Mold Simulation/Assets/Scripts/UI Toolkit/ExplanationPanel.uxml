@@ -1,10 +1,34 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Scripts/UI%20Toolkit/StyleSheets/Controller.uss?fileID=7433441132597879392&amp;guid=b0d62440492fb43d99fa372ba6d8718e&amp;type=3#Controller" />
-    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.39); flex-shrink: 1; height: 1036px; min-width: auto; flex-direction: row;">
-        <ui:GroupBox name="TextBox" style="flex-grow: 3; flex-direction: column; padding-left: 49px; padding-top: 36px;">
-            <ui:Label text="Dragging or scrolling Changes &#10;your Currently Selected Field" display-tooltip-when-elided="true" style="flex-grow: 1;" />
+    <ui:VisualElement name="MainPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.69); flex-shrink: 1; height: 1036px; min-width: auto; flex-direction: row; transition-duration: 0.2s;">
+        <ui:GroupBox name="TextBox" style="flex-grow: 3; flex-direction: column; padding-left: 49px; padding-top: 36px; padding-right: -11px;">
+            <ui:Label text="Dragging or scrolling Changes &#10;your Currently Selected Field" display-tooltip-when-elided="true" class="TextBoxScalable" style="flex-grow: 0.7; -unity-text-align: middle-center;" />
+            <ui:GroupBox style="flex-grow: 0.5; flex-shrink: 1; align-items: center;">
+                <ui:VisualElement name="DraggingHand" style="height: 112px; width: 114px; background-image: url(&apos;project://database/Assets/Sprites/Dragging.png?fileID=2800000&amp;guid=6e59fc07803304abb9da18fa65d5ef81&amp;type=3#Dragging&apos;); flex-shrink: 0; position: relative;" />
+            </ui:GroupBox>
+            <ui:GroupBox style="flex-grow: 1; flex-direction: column; margin-left: 5%;">
+                <ui:GroupBox name="HorizontalTextGroup">
+                    <ui:Label text="Two Finger Drag" display-tooltip-when-elided="true" class="TextBoxScalable TextEdit" />
+                    <ui:VisualElement class="KeyImages" style="flex-grow: 0; height: 80px; width: 56px; flex-shrink: 0; background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/TwoFingerDrag.png?fileID=2800000&amp;guid=4db5cfb4e3e584686989a9f8922f3783&amp;type=3#TwoFingerDrag&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                    <ui:Label text="For  More Precision" display-tooltip-when-elided="true" class="TextBoxScalable" style="flex-grow: 1;" />
+                </ui:GroupBox>
+                <ui:GroupBox name="HorizontalTextGroup">
+                    <ui:Label text="Two finger Tap" display-tooltip-when-elided="true" class="TextBoxScalable TextEdit" />
+                    <ui:VisualElement class="KeyImages" style="flex-shrink: 0; height: 65px; width: 45px; background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/TwoFingerDrag.png?fileID=2800000&amp;guid=4db5cfb4e3e584686989a9f8922f3783&amp;type=3#TwoFingerDrag&apos;);" />
+                    <ui:Label text="to Pause" display-tooltip-when-elided="true" class="TextBoxScalable" style="flex-grow: 1;" />
+                </ui:GroupBox>
+                <ui:GroupBox name="HorizontalTextGroup">
+                    <ui:Label text="Three finger Tap" display-tooltip-when-elided="true" class="TextBoxScalable TextEdit" />
+                    <ui:VisualElement class="KeyImages" style="flex-shrink: 0; height: 75px; width: 50px; background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/ThreeFingerTap.png?fileID=2800000&amp;guid=ce891fc5a91654dcda1387785b533acd&amp;type=3#ThreeFingerTap&apos;);" />
+                    <ui:Label text="to Reset Positions" display-tooltip-when-elided="true" class="TextBoxScalable" style="flex-grow: 1;" />
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox style="flex-grow: 0.7; flex-direction: row; align-items: center; justify-content: flex-start;">
+                <ui:VisualElement style="max-height: 100px; max-width: 100px; flex-shrink: 0; height: 94px; width: 100px; background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/SporePreview.png?fileID=2800000&amp;guid=5d75bf900bdf74f83b2908ff7ac575eb&amp;type=3#SporePreview&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                <ui:Label text="Shows the State of the Spores" display-tooltip-when-elided="true" class="TextBoxScalable" />
+            </ui:GroupBox>
         </ui:GroupBox>
-        <ui:GroupBox name="ControllerBox" style="flex-grow: 1; min-width: auto; flex-direction: column; justify-content: flex-start; padding-top: 3px; padding-bottom: 10px;">
+        <ui:GroupBox name="ControllerBox" style="flex-grow: 1.5; min-width: auto; flex-direction: column; justify-content: flex-start; padding-top: 3px; padding-bottom: 10px;">
             <ui:GroupBox name="Controller" style="flex-direction: row;">
                 <ui:Label text="Spore Count" display-tooltip-when-elided="true" name="ControllerText" />
                 <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/Count.png?fileID=2800000&amp;guid=b4d580982568c4e8d821ee2004dadd84&amp;type=3#Count&apos;); -unity-background-scale-mode: scale-to-fit;" />
@@ -34,7 +58,7 @@
                 <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/Randomness.png?fileID=2800000&amp;guid=bbab87990819341c18026fa49ad7fcb8&amp;type=3#Randomness&apos;);" />
             </ui:GroupBox>
             <ui:GroupBox name="Controller" style="margin-top: 10px; margin-bottom: 8px;">
-                <ui:Label text="Toggles Going Towards &#10;or Away from other Spores" display-tooltip-when-elided="true" name="ControllerText" />
+                <ui:Label text="Toggles Attraction/Repulsion" display-tooltip-when-elided="true" name="ControllerText" />
                 <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/ControllerIcons/Attraction&amp;Repulsion.png?fileID=2800000&amp;guid=88c718bb52b53450eab205f92cb62eb2&amp;type=3#Attraction&amp;Repulsion&apos;);" />
             </ui:GroupBox>
             <ui:GroupBox name="Controller">

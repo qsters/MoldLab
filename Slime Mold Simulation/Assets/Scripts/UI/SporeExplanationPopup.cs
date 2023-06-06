@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 namespace UI
@@ -7,13 +9,53 @@ namespace UI
     public class SporeExplanationPopup : MonoBehaviour
     {
         public static SporeExplanationPopup singleton;
-        [SerializeField] private CanvasGroup popup;
-        [SerializeField] private RectTransform mouseTransform;
+        [SerializeField] private UIDocument _document;
+        private VisualElement root;
+        private List<VisualElement> textElements;
+        private VisualElement draggingHand;
+        private VisualElement mainPanel;
 
         private void Start()
         {
             singleton = this;
-            popup = GetComponent<CanvasGroup>();
+            root = _document.rootVisualElement;
+            textElements = root.Query(className: "TextBoxScalable").ToList();
+            draggingHand = root.Q("DraggingHand");
+            mainPanel = root.Q("MainPanel");
+
+
+            int fontSize = 30;
+            float aspectRatio = (float)Screen.width / (float)Screen.height;
+
+            if (aspectRatio < 1.5f)
+            {
+                fontSize = 60;
+
+                if (Screen.height > 2000)
+                {
+                    fontSize = 75;
+                }
+            }
+            else
+            {
+                if (Screen.width < 1800)
+                {
+                    fontSize = 30;
+                }
+                else if (Screen.width >= 1800 && Screen.width < 2500)
+                {
+                    fontSize = 40;
+                }
+                else if (Screen.width >= 2500)
+                {
+                    fontSize = 60;
+                }
+            }
+
+            foreach (var visualElement in textElements)
+            {
+                visualElement.style.fontSize = new StyleLength(fontSize);
+            }
         }
 
         private void Update()
@@ -33,36 +75,18 @@ namespace UI
 #endif
             }
 
-            mouseTransform.localPosition = new Vector3(-600f + Mathf.Sin(Time.timeSinceLevelLoad * 2f) * 100f, 200f);
+            draggingHand.style.translate =
+                new StyleTranslate(new Translate(Mathf.Sin(Time.timeSinceLevelLoad * 2f) * 100f, 0));
         }
 
-        public void Fade(float alpha, float duration)
+        private void HidePopup()
         {
-            singleton.StopAllCoroutines();
-            if (duration <= 0f)
-            {
-                singleton.popup.alpha = alpha;
-            }
-            else
-            {
-                singleton.StartCoroutine(UIHelper.FadeCanvasGroup(popup, alpha, duration));
-            }
+            mainPanel.style.opacity = 0;
         }
 
         public void ShowPopup()
         {
-            popup.interactable = true;
-            enabled = true;
-
-            singleton.Fade(1f, 0.2f);
-        }
-
-        public void HidePopup()
-        {
-            popup.interactable = false;
-            enabled = false;
-
-            singleton.Fade(0f, 0.2f);
+            mainPanel.style.opacity = 1;
         }
     }
 }
