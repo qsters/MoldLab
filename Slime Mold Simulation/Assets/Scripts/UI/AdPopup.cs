@@ -7,7 +7,7 @@ namespace UI
 {
     public class AdPopup : MonoBehaviour
     {
-        private AdBlocker currentBlocker;
+        public AdBlocker currentBlocker;
         public static AdPopup singleton;
         public bool isOpen;
 
@@ -47,6 +47,24 @@ namespace UI
             {
                 gameObject.SetActive(false);
                 isOpen = false;
+            }
+        }
+        
+        public void AdWatched()
+        {
+            if (currentBlocker.coversPresets)
+            {
+                foreach (var adBlocker in FindObjectsOfType<AdBlocker>())
+                {
+                    if (adBlocker.coversPresets)
+                    {
+                        adBlocker.Hide();
+                    }
+                }
+            }
+            else
+            {
+                currentBlocker.Hide();
             }
         }
     }

@@ -1126,6 +1126,7 @@ GameObject:
   - component: {fileID: 249928582}
   - component: {fileID: 249928581}
   - component: {fileID: 249928580}
+  - component: {fileID: 249928583}
   m_Layer: 5
   m_Name: WatchButton
   m_TagString: Untagged
@@ -1236,6 +1237,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249928578}
   m_CullTransparentMesh: 1
+--- !u!114 &249928583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249928578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c3ae377b92049a1962cd4c9ef7ff89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showAdButton: {fileID: 249928580}
+  _androidAdUnitId: Rewarded_Android
+  _iOSAdUnitId: Rewarded_iOS
 --- !u!1 &286891707
 GameObject:
   m_ObjectHideFlags: 0
@@ -9965,6 +9981,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AdBlock (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 2002050900861389685, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3843944299222178662, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
       propertyPath: m_Color.a
       value: 1
@@ -9979,6 +9999,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843944299222178662, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176053094858608403, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
+      propertyPath: coversPresets
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4694833102888631159, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
@@ -10678,6 +10702,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843944299222178662, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176053094858608403, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
+      propertyPath: coversPresets
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4694833102888631159, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
@@ -11512,6 +11540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f12dd4d6318496d8b7d633ea2ae29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBlocker: {fileID: 0}
   isOpen: 0
 --- !u!1 &951034324
 GameObject:
@@ -12101,6 +12130,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843944299222178662, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176053094858608403, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
+      propertyPath: coversPresets
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4694833102888631159, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
@@ -12702,6 +12735,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4176053094858608403, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
+      propertyPath: coversPresets
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4694833102888631159, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13037,6 +13074,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171004969}
   m_CullTransparentMesh: 1
+--- !u!1 &1183092763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1183092766}
+  - component: {fileID: 1183092765}
+  m_Layer: 0
+  m_Name: AdsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1183092765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183092763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3bd4208fd0bd46aa81639d073b542b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _androidGameId: 5305067
+  _iOSGameId: 5305066
+  _testMode: 1
+--- !u!4 &1183092766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183092763}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1097.4109, y: 1083.5446, z: 14.955586}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1189003291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13962,6 +14046,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843944299222178662, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176053094858608403, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
+      propertyPath: coversPresets
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4694833102888631159, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
@@ -16077,6 +16165,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3843944299222178662, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176053094858608403, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
+      propertyPath: coversPresets
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4694833102888631159, guid: 3de8186eb5176430da1e31da67c3a11c, type: 3}
