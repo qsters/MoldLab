@@ -39,7 +39,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -112,7 +112,7 @@
                 {
                     "name": "",
                     "id": "55776a36-a0d1-4631-bca3-b9b9e8cab4f8",
-                    "path": "<Touchscreen>/primaryTouch/press",
+                    "path": "<Touchscreen>/touch0/press",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Mobile",

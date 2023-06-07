@@ -30,7 +30,6 @@ namespace Tutorial
             SkippingSymbol.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(123.6276f, 61.0716f);
 
 #elif UNITY_IOS || UNITY_ANDROID
-            EnhancedTouchSupport.Enable();
             SkippingSymbol.sprite = SkippingSprites[1];
             SkippingSymbol.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(-86.137f, 18.647f, 0f);
             SkippingSymbol.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(123.6276f, 117.7528f);

@@ -15,11 +15,13 @@ namespace UI.ColorMenu
 
         public void TestDeselect(InputAction.CallbackContext context)
         {
-            if (!context.started || !gameObject.activeSelf)
+            if (!context.started || !gameObject.activeSelf ||
+            PickerManager.pickingColor || AdPopup.singleton.isOpen)
             {
                 return;
             }
 
+            
             if (!RectTransformUtility.RectangleContainsScreenPoint(
                     thisTransform,
 #if (UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN)
@@ -27,8 +29,7 @@ namespace UI.ColorMenu
 #elif UNITY_IOS || UNITY_ANDROID
                     Touch.activeFingers[0].screenPosition,
 #endif
-                    null) &&
-                !PickerManager.pickingColor)
+                    null))
             {
                 Deactivate();
             }
