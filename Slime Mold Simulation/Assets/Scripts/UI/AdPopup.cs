@@ -11,6 +11,7 @@ namespace UI
         public static AdPopup singleton;
         public bool isOpen;
 
+        
         private void Awake()
         {
             if (singleton != null)
@@ -23,6 +24,11 @@ namespace UI
             }
 
             gameObject.SetActive(false);
+        }
+        
+        public void RestoringSucceeded(Boolean field1, String field2)
+        {
+            Debug.Log("this is a thing");
         }
 
         public void Popup(AdBlocker orgin)
@@ -49,6 +55,13 @@ namespace UI
                 isOpen = false;
             }
         }
+
+        public void OnRemoveAdButton()
+        {
+            gameObject.SetActive(false);
+            PayPopup.singleton.gameObject.SetActive(true);
+        }
+        
         
         public void AdWatched()
         {
