@@ -17,7 +17,7 @@ public class PayPopup : MonoBehaviour
 
     public void RemoveAds()
     {
-        Debug.Log("adds removed");
+        Simulation.singleton.simulationDataSO.adsPaid = true;
         foreach (var adBlocker in FindObjectsOfType<AdBlocker>())
         {
             adBlocker.Hide();

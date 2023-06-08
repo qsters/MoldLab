@@ -45,6 +45,8 @@ namespace ScriptableObjects
         public readonly float MinSporeTrailLength = 3.0f;
         public readonly float MinSporeTurnSpeed = 0.0f;
 
+        public bool adsPaid = false;
+
         public void ResetDataToDefault()
         {
             sporeCount = 500_000;

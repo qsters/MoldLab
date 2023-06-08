@@ -14,7 +14,13 @@ public class AdBlocker : MonoBehaviour
     {
 #if UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN
         this.gameObject.SetActive(false);
+        return;
 #endif
+
+        if (Simulation.singleton.simulationDataSO.adsPaid)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void OnClick()
