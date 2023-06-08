@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 using UI;
 using UnityEngine.Purchasing;
 using UnityEngine;
@@ -17,11 +18,11 @@ public class PayPopup : MonoBehaviour
 
     public void RemoveAds()
     {
-        Simulation.singleton.simulationDataSO.adsPaid = true;
         foreach (var adBlocker in FindObjectsOfType<AdBlocker>())
         {
             adBlocker.Hide();
         }
+        JsonHelper.UpdateData(true);
     }
 
     public void TestDeselect(InputAction.CallbackContext context)

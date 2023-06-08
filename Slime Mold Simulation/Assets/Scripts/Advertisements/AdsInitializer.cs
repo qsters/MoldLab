@@ -14,6 +14,11 @@ namespace Advertisements
 
         void Awake()
         {
+#if UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN
+            gameObject.SetActive(false);
+            return;
+#endif
+
             InitializeAds();
         }
 

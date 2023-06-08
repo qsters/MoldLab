@@ -22,7 +22,7 @@ namespace UI
             {
                 singleton = this;
             }
-
+            
             gameObject.SetActive(false);
         }
         

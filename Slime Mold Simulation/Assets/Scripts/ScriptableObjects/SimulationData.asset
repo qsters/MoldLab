@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e389d5efbafd145bf88c1e56afec1ff5, type: 3}
   m_Name: SimulationData
   m_EditorClassIdentifier: 
-  sporeCount: 50000
-  sporeSpeedPPS: 50
+  sporeCount: 500000
+  sporeSpeedPPS: 65
   sporeTurnSpeedRPS: 5
   sporeSensorDistance: 5
   sporeSensorOffset: 45
   randomnessScale: 0
   trailLengthPixels: 100
   attractedToSpores: 1
-  colorScheme: 7
-  isInverted: 0
-  screenHeight: 1076
-  screenWidth: 1891
+  colorScheme: 0
+  colorMode: 0
+  colorChoice1: {r: 0, g: 1, b: 1, a: 1}
+  colorChoice2: {r: 1, g: 0, b: 0, a: 1}
+  screenHeight: 1284
+  screenWidth: 2778
+  adsPaid: 0
