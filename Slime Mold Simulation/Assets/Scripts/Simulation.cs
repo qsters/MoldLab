@@ -13,6 +13,7 @@ public class Simulation : MonoBehaviour
 
     // Kernel indexes in sporesCS
     public const int updateSporePosKernel = 0;
+    public const int randomizeSporesKernel = 1;
 
     // Singleton for universal access
     public static Simulation singleton;
@@ -51,8 +52,6 @@ public class Simulation : MonoBehaviour
         }
 
         simulationData = simulationDataSO;
-
-        Application.targetFrameRate = 60;
     }
 
     // Start is called before the first frame update
@@ -70,14 +69,14 @@ public class Simulation : MonoBehaviour
         SimulationDataPasser.UpdateData();
 
         // Create Spores
-        spores = Spore.GetRandomSpores(simulationData.sporeCount);
+        spores = SporeHandler.GetRandomSpores(simulationData.MaxSporeCount);
 
         // Resizes and then sets the textures, must change this whenever making shader changes
         TextureHelper.UpdateAndSetRenderTextures();
 
         // Creating and setting Initial Buffers
         SimulationDataPasser.CreateAndSetData();
-        Spore.CreateAndSetSpores();
+        SporeHandler.CreateAndSetSpores();
 
         // Clears the textures to black, need to do this or else colors are weird in build mode
         TextureHelper.ClearRenderTextures(new[] { trailTexture });
@@ -93,8 +92,7 @@ public class Simulation : MonoBehaviour
             // Update spore count
             if (spores.Length != simulationData.sporeCount)
             {
-                // Debug.Log(simulationData.sporeCount);
-                Spore.UpdateAndSetSporeCount();
+                // SporeHandler.UpdateAndSetSporeCount();
             }
 
             // Set data

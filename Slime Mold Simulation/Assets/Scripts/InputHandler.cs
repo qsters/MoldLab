@@ -57,9 +57,12 @@ public class InputHandler : MonoBehaviour
                 return;
             }
 
-            TextureHelper.ClearRenderTextures(new[] { Simulation.trailTexture });
-            Simulation.spores = Spore.GetRandomSpores(Simulation.simulationData.sporeCount);
-            Spore.CreateAndSetSpores();
+            Simulation.singleton.sporesCS.SetInt("screenHeight", Screen.height);
+            Simulation.singleton.sporesCS.SetInt("screenWidth", Screen.width);
+            Simulation.singleton.sporesCS.SetInt("maxSpores", Simulation.simulationData.MaxSporeCount);
+
+            ComputeHelper.Dispatch(Simulation.singleton.sporesCS, Simulation.simulationData.MaxSporeCount,
+                kernelIndex: Simulation.randomizeSporesKernel);
         }
         else
         {
