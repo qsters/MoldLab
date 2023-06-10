@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace UI
     {
         private static CanvasGroup display;
         public static SporeDisplayHandler singleton;
-        private void Start()
+        private void Awake()
         {
             singleton = this;
             display = GetComponent<CanvasGroup>();

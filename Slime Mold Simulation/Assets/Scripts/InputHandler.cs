@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Helpers;
 using UI;
 using UnityEngine;
@@ -14,6 +11,7 @@ public class InputHandler : MonoBehaviour
     public static InputHandler singleton;
     public bool isPaused;
     public bool disablePause;
+    [SerializeField] private CanvasGroup pauseGroup;
 
     private void Awake()
     {
@@ -32,10 +30,25 @@ public class InputHandler : MonoBehaviour
         {
             return;
         }
+        ChangePauseState();
+        
+        StopAllCoroutines();
+        if (isPaused)
+        {
+            StartCoroutine(UIHelper.FadeCanvasGroup(pauseGroup, 1f, 0.2f));
+            
+        }
+        else
+        {
+            
+            StartCoroutine(UIHelper.FadeCanvasGroup(pauseGroup, 0f, 0.2f));
+        }
+    }
 
+    public void ChangePauseState()
+    {
         isPaused = !isPaused;
-
-
+        
         Simulation.simulationState = Simulation.simulationState == SimulationState.Playing
             ? SimulationState.Paused
             : SimulationState.Playing;

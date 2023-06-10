@@ -79,8 +79,8 @@ namespace UI
                         durationToFade);
                 }
 
-            SporeDisplayHandler.Fade(DISPLAY_NORMAL_ALPHA, durationToFade);
-            QuestionMark.Fade(DISPLAY_NORMAL_ALPHA, durationToFade);
+            SporeDisplayHandler.Fade(1.0f, durationToFade);
+            QuestionMark.Fade(1f, durationToFade);
         }
 
         private static void FadeUI()

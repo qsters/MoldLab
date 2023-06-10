@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-namespace UI
+namespace Helpers
 {
     public class UIHelper
     {
+        
+        
         public static IEnumerator FadeCanvasGroup(CanvasGroup canvasGroupToFade, float targetAlpha, float duration)
         {
             // Get the initial alpha value of the canvas group

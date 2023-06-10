@@ -1,3 +1,4 @@
+using Helpers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,7 +9,7 @@ namespace UI
         private static CanvasGroup display;
         public static QuestionMark singleton;
 
-        private void Start()
+        private void Awake()
         {
             singleton = this;
             display = GetComponent<CanvasGroup>();

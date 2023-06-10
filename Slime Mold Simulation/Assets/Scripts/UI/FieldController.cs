@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
+using Helpers;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI
