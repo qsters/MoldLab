@@ -6,14 +6,12 @@ namespace UI
     public class UIHandler : MonoBehaviour
     {
         private const float DISPLAY_SELECTED_ALPHA = 1f;
-        private const float DISPLAY_NORMAL_ALPHA = 0.9f;
+        private const float DISPLAY_NORMAL_ALPHA = 0.8f;
         private const float DISPLAY_FADED_ALPHA = 0.6f;
-        private const float DISPLAY_HOVERED_ALPHA = 0.95f;
 
         private const float BACKGROUND_SELECTED_ALPHA = 1f;
-        private const float BACKGROUND_NORMAL_ALPHA = 0.39f;
+        private const float BACKGROUND_NORMAL_ALPHA = 1f;
         private const float BACKGROUND_FADED_ALPHA = 0f;
-        private const float BACKGROUND_HOVERED_ALPHA = 0.7f;
 
         private const float FADING_TIME = 5f;
         private static float fadingTimer = FADING_TIME;
@@ -103,38 +101,12 @@ namespace UI
             SporeDisplayHandler.Fade(DISPLAY_FADED_ALPHA, durationToFade);
             QuestionMark.Fade(DISPLAY_FADED_ALPHA, durationToFade);
         }
-
-        public static void UpdateSelectedUI(FieldController oldSelectedField, FieldController newSelectedField)
-        {
-            oldSelectedField.FadeTheField(BACKGROUND_NORMAL_ALPHA, 0.1f, DISPLAY_NORMAL_ALPHA, 0.1f);
-            newSelectedField.FadeTheField(BACKGROUND_SELECTED_ALPHA, 0.1f, DISPLAY_SELECTED_ALPHA, 0.1f);
-        }
-
-        public static void OnHoverEnter(FieldController hoveredField)
-        {
-            if (FieldController.selectedField == hoveredField)
-            {
-                return;
-            }
-
-            hoveredField.FadeTheField(BACKGROUND_HOVERED_ALPHA, 0.1f, DISPLAY_HOVERED_ALPHA, 0.1f);
-        }
-
-        public static void OnHoverExit(FieldController hoveredField)
-        {
-            if (FieldController.selectedField == hoveredField)
-            {
-                return;
-            }
-
-            hoveredField.FadeTheField(BACKGROUND_NORMAL_ALPHA, 0.1f, DISPLAY_NORMAL_ALPHA, 0.1f);
-        }
-
+        
         public static void SetAllButtonsInteractable()
         {
-            foreach (Button button in GameObject.FindObjectsOfType<Button>())
+            foreach (FieldController controller in GameObject.FindObjectsOfType<FieldController>())
             {
-                button.interactable = true;
+                controller.GetComponent<Button>().interactable = true;
             }
         }
     }
