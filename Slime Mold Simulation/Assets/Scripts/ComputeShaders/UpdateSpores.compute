@@ -124,3 +124,33 @@ void UpdateSpore(uint3 id : SV_DispatchThreadID)
     spores[id.x].position = newPosition;
     spores[id.x].angle = newAngle;
 }
+
+
+#pragma kernel RandomizeSpores
+
+int screenHeight;
+int screenWidth;
+int maxSpores;
+
+[numthreads(16,1,1)]
+void RandomizeSpores(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)maxSpores)
+    {
+        return;
+    }
+
+    Spore spore = spores[id.x];
+    float2 position = spore.position;
+
+
+    float randomX = scaleToRange01(hash(position.x * time + spore.angle + id.x));
+    float randomY = scaleToRange01(hash(position.y * time + spore.angle + id.x));
+
+    float xPos = randomX * (float)screenWidth;
+    float yPos = randomY * (float)screenHeight;
+
+    spore.position = float2(xPos, yPos);
+
+    spores[id.x] = spore;
+}

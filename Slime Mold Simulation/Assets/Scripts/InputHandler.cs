@@ -7,6 +7,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.InputSystem.HID;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class InputHandler : MonoBehaviour
@@ -58,8 +59,13 @@ public class InputHandler : MonoBehaviour
             }
 
             TextureHelper.ClearRenderTextures(new[] { Simulation.trailTexture });
-            Simulation.spores = Spore.GetRandomSpores(Simulation.simulationData.sporeCount);
-            Spore.CreateAndSetSpores();
+
+            Simulation.singleton.sporesCS.SetInt("screenHeight", Screen.height);
+            Simulation.singleton.sporesCS.SetInt("screenWidth", Screen.width);
+            Simulation.singleton.sporesCS.SetInt("maxSpores", Simulation.simulationData.MaxSporeCount);
+
+            ComputeHelper.Dispatch(Simulation.singleton.sporesCS, Simulation.simulationData.MaxSporeCount,
+                kernelIndex: Simulation.randomizeSporesKernel);
         }
         else
         {

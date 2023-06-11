@@ -28,61 +28,12 @@ public struct Spore
         return spores;
     }
 
-    public static void UpdateAndSetSporeCount()
-    {
-        GetSporeData();
-
-        var currentSporeCount = Simulation.spores.Length;
-        var wantedSporeCount = Simulation.simulationData.sporeCount;
-
-        if (currentSporeCount < wantedSporeCount)
-        {
-            var missingSporeCount = wantedSporeCount - currentSporeCount;
-
-            var newSpores = new Spore[wantedSporeCount];
-            var createdSpores = GetRandomSpores(missingSporeCount);
-            Simulation.spores.CopyTo(newSpores, 0);
-            createdSpores.CopyTo(newSpores, currentSporeCount);
-
-            Simulation.spores = newSpores;
-        }
-        else
-        {
-            var excessSporeCount = currentSporeCount - wantedSporeCount;
-            var newSpores = Simulation.spores.SkipLast(excessSporeCount).ToArray();
-
-            Simulation.spores = newSpores;
-        }
-
-        CreateAndSetSpores();
-    }
-
     public static void CreateAndSetSpores()
     {
         ComputeHelper.CreateStructuredBuffer(ref Simulation.sporeBuffer, Simulation.spores);
 
         Simulation.singleton.sporesCS.SetBuffer(Simulation.updateSporePosKernel, "spores", Simulation.sporeBuffer);
+        Simulation.singleton.sporesCS.SetBuffer(Simulation.randomizeSporesKernel, "spores", Simulation.sporeBuffer);
         Simulation.singleton.textureCS.SetBuffer(Simulation.updateTrailKernel, "spores", Simulation.sporeBuffer);
-    }
-
-    public static void RescaleAndSetSpores(int originalWidth, int originalHeight, int newWidth, int newHeight)
-    {
-        GetSporeData();
-        for (var i = 0; i < Simulation.spores.Length; i++)
-        {
-            var spore = Simulation.spores[i];
-
-            spore.position.x = spore.position.x / originalWidth * newWidth;
-            spore.position.y = spore.position.y / originalHeight * newHeight;
-
-            Simulation.spores[i] = spore;
-        }
-
-        CreateAndSetSpores();
-    }
-
-    public static void GetSporeData()
-    {
-        Simulation.sporeBuffer.GetData(Simulation.spores);
     }
 }

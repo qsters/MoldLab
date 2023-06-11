@@ -13,6 +13,7 @@ public class Simulation : MonoBehaviour
 
     // Kernel indexes in sporesCS
     public const int updateSporePosKernel = 0;
+    public const int randomizeSporesKernel = 1;
 
     // Singleton for universal access
     public static Simulation singleton;
@@ -70,7 +71,7 @@ public class Simulation : MonoBehaviour
         SimulationDataPasser.UpdateData();
 
         // Create Spores
-        spores = Spore.GetRandomSpores(simulationData.sporeCount);
+        spores = Spore.GetRandomSpores(simulationData.MaxSporeCount);
 
         // Resizes and then sets the textures, must change this whenever making shader changes
         TextureHelper.UpdateAndSetRenderTextures();
@@ -90,13 +91,6 @@ public class Simulation : MonoBehaviour
     {
         if (simulationState == SimulationState.Playing)
         {
-            // Update spore count
-            if (spores.Length != simulationData.sporeCount)
-            {
-                // Debug.Log(simulationData.sporeCount);
-                Spore.UpdateAndSetSporeCount();
-            }
-
             // Set data
             sporesCS.SetFloat("deltaTime", Time.deltaTime);
             textureCS.SetFloat("deltaTime", Time.deltaTime);
