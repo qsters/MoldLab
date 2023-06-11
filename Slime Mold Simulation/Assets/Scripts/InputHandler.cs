@@ -15,6 +15,7 @@ public class InputHandler : MonoBehaviour
     public static InputHandler singleton;
     public bool isPaused;
     public bool disablePause;
+    [SerializeField] private CanvasGroup pauseGroup;
 
     private void Awake()
     {
@@ -40,6 +41,16 @@ public class InputHandler : MonoBehaviour
         Simulation.simulationState = Simulation.simulationState == SimulationState.Playing
             ? SimulationState.Paused
             : SimulationState.Playing;
+
+        StopAllCoroutines();
+        if (isPaused)
+        {
+            StartCoroutine(UIHelper.FadeCanvasGroup(pauseGroup, 1f, 0.2f));
+        }
+        else
+        {
+            StartCoroutine(UIHelper.FadeCanvasGroup(pauseGroup, 0f, 0.2f));
+        }
     }
 
     public void OnClearButton(InputAction.CallbackContext context)
